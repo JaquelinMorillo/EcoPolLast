@@ -11,14 +11,15 @@ library(wnominate) # Poole et al 2011
 library(MCMCpack) # Quinn et al 2011
 library(pscl)  # Jackman 2012
 library(ellipse)
+library(readxl)
+
 
 #Cargo base reco
 DB <- read_xlsx(paste0(aqui,"/BASE_FINAL_RECO.xlsx"))
 
 #Preparo Base de Datos
 nombres <- DB[,2]
-DB$Column1 <- NULL
-DB <- DB[,3:NCOL(DB)]
+DB <- DB[,-c(1,2)] 
 rc <- rollcall(DB,             
                   yea=c(1), # reduce los valores a dos grupos yea/nay
                   nay=c(-1),
@@ -27,10 +28,18 @@ rc <- rollcall(DB,
                   legis.names=nombres,
                   legis.data=NULL,
                   desc="Dip 2018-22")
-result_dip <- wnominate(rc, dims=2, polarity=c(35,35))
+result_dip <- wnominate(rc, dims=2, polarity=c(153,153)) #Poner un extremo de los weones
 summary(result_dip)
 windows()
 plot(result_dip)
+
+
+result_dip$legislators[7]
+vector <- result_dip$legislators[7]
+ 
+
+
+
 
 WEIGHT=(result_dip$weights[2])/(result_dip$weights[1]) # peso relativo dado a la segunda dimension
 X1 <- result_dip$legislators$coord1D   # primera dimension
