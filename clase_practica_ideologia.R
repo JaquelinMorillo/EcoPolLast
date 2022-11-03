@@ -84,6 +84,15 @@ plot.scree(result) # peso relativo de cada eigenvalue
 plot.cutlines(result, lines=5) # puntos de corte de cada proyecto
 plot.angles(result) # histograma de los puntos de corte por angulos
 
+
+
+
+
+
+
+
+
+
 # entonces ahora hagamos lo mismo con datos de Chile
 senado <- read.csv(paste0(aqui,"/votos2014_2016_procesado.csv"),sep=";")
 nombres <- senado[,1]
@@ -132,6 +141,11 @@ xws <- ws*N1W
 yws <- ws*N2W
 
 
+
+Hasta aca!
+###########################################
+##########################################
+##########################################
 windows()
 plot(X1, X2,
      xlab="1ra dimensión (izquierda-derecha)
