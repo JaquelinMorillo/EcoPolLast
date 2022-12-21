@@ -12,7 +12,7 @@ library(pscl)  # Jackman 2012
 # Carga de datos y Descriptivos
 #########################################
 
-BASE_DESCRIPTIVA <- read_excel("BASE_DESCRIPTIVA.xlsx")
+BASE_DESCRIPTIVA <- read_xls("BASE_DESCRIPTIVA.xlsx")
 p1 <- read_excel("p1.xlsx")
 p2 <- read_excel("p2.xlsx")
 p3 <- read_excel("p3.xlsx")
@@ -26,17 +26,17 @@ p3 <- read_excel("p3.xlsx")
 nombres1 <- p1[,1]
 p1 <- p1[,2:NCOL(p1)]
 rc_p1 <- rollcall(p1,             
-                      yea=c(1), # reduce los valores a dos grupos yea/nay
-                      nay=c(0),
-                      missing=c(NA), # todos los otros datos quedan como missing
+                      yea=1, # reduce los valores a dos grupos yea/nay
+                      nay=0,
+                      missing=NA, # todos los otros datos quedan como missing
                       notInLegis=NULL, # vector de ausentes en que seccion
-                      legis.names=nombres,
+                      legis.names=nombres1,
                       legis.data=NULL,
                       desc="periodo pre estallido")
-result_p1 <- wnominate(rc_senado, dims=2, polarity=c(35,35))
-summary(result_senado) # el objeto results contiene la estimacion
+result_p1 <- wnominate(rc_p1, dims=2, polarity=c(35,35))
+summary(result_p1) # el objeto results contiene la estimacion
 windows()
-plot(result_senado)
+plot(result_p1)
 
 WEIGHT=(result_senado$weights[2])/(result_senado$weights[1]) # peso relativo dado a la segunda dimension
 X1 <- result_senado$legislators$coord1D   # primera dimension
