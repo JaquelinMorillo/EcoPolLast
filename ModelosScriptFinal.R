@@ -52,6 +52,9 @@ tabla_p1  <-tabla_p1[order(tabla_p1$coord1D), c(1,2,3,4)]
 tabla_p1 $rank <-rank(tabla_p1$coord1D)
 
 tabla1<-xtable(tabla_p1, caption = "Tabla de estimación ideológica, periodo pre-estallido")
+tabla1$coord1D <-round(tabla_p1$coord1D,2)
+tabla1$GMP <-round(tabla_p1$GMP,2)
+tabla1$CC <-round(tabla_p1$CC,2)
 htmlTable(tabla1)
 
 lista_p1graph<-lista_p1 [,1]
@@ -79,9 +82,7 @@ Plot_p1<-ggplot(tabla1b, aes(x = coord1D, y = rank)) +
         panel.grid.major = element_line(colour = "grey70", size = 0.2),
         panel.grid.minor = element_blank())
 
-ggsave(Plot_p1, filename = "Results/Plot_Subcom1.png",
-       dpi = 400, width = 15, height = 9)
-
+ggplot2::ggsave(Plot_p1, filename = "Plot_p1.png",dpi = 400, width = 15, height = 20)
 
 
 
