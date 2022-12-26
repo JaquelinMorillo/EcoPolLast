@@ -14,15 +14,31 @@ library(htmlTable)
 library(kableExtra)
 library(magick)
 library(ellipse)
+library(dplyr)
+library(ggplot2) 
+library(ddplot)
+library(lessR)
 
 #########################################
-# Carga de datos y Descriptivos
+# Carga de datos 
 #########################################
 
-BASE_DESCRIPTIVA <- read_excel("BASE_DESCRIPTIVA.xlsx")
-p1 <- read_excel("p1b.xlsx")
-p2 <- read_excel("p2.xlsx")
-p3 <- read_excel("p3.xlsx")
+BASE_DESCRIPTIVA <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/BASE_DESCRIPTIVA.xlsx")
+p1 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p1b.xlsx")
+p2 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p2.xlsx")
+p3 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p3.xlsx")
+Partidos <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/Partidos.xlsx")
+
+
+#########################################
+# Descriptivos
+#########################################
+#PARTIDOS
+graph_partidos<-ggplot(data=Partidos, aes(x=Partidos$partido, y=Partidos$cantidad, fill=Partidos$cantidad)) + 
+  geom_bar(width=.8, stat="identity") +
+  guides(fill=FALSE) +
+  xlab("Partidos") + ylab("Diputados") +
+  ggtitle("Distribución del congreso por partidos - 2018")
 
 
 ########################################2######################################
@@ -63,7 +79,7 @@ tabla1$coord1D <-round(tabla_p1$coord1D,2)
 tabla1$GMP <-round(tabla_p1$GMP,2)
 tabla1$CC <-round(tabla_p1$CC,2)
 htmlTable(tabla1)%>%
-      save_kable(file = "tablaP1.png")
+      save_kable(file = "~/Documents/GitHub/EcoPolLast/Results/tablaP1.png")
 lista_p1graph<-lista_p1 [,1]
 tabla1b<-data.frame(lista_p1graph$apellido,result_p1$legislators)
 tabla1b <-tabla1b[,c(1,6,7,8)]
@@ -91,7 +107,7 @@ Plot_p1<-ggplot(tabla1b, aes(x = coord1D, y = rank)) +
         panel.grid.minor = element_blank())
   
 
-ggplot2::ggsave(Plot_p1, filename = "Plot_p1.png",dpi = 400, width = 15, height = 20)
+ggplot2::ggsave(Plot_p1, filename = "~/Documents/GitHub/EcoPolLast/Results/Plot_p1.png",dpi = 500, width = 15, height = 30)
 
 ########################################2######################################
 #Modelo P2
@@ -131,7 +147,7 @@ tabla2$coord1D <-round(tabla_p2$coord1D,2)
 tabla2$GMP <-round(tabla_p2$GMP,2)
 tabla2$CC <-round(tabla_p2$CC,2)
 htmlTable(tabla2)%>%
-  save_kable(file = "tablaP2.png")
+  save_kable(file = "~/Documents/GitHub/EcoPolLast/Results/tablaP2.png")
 lista_p2graph<-lista_p2 [,1]
 tabla2b<-data.frame(lista_p2graph$apellido,result_p2$legislators)
 tabla2b <-tabla2b[,c(1,6,7,8)]
@@ -152,7 +168,7 @@ Plot_p2<-ggplot(tabla2b, aes(x = coord1D, y = rank)) +
        title= "Estimación Ideológica periodo durante estallido",
        subtitle = "dimensión",
        caption = "Línea amarilla: Votante mediano")+
-  geom_vline(xintercept = 0.04754625, colour = "orange", linetype = "dashed")+
+  geom_vline(xintercept = 0.044180445, colour = "orange", linetype = "dashed")+
   theme(axis.text = element_text(size = 15),
         axis.title= element_text(size=16,face="bold"),
         plot.title = element_text(size = 18, face = "bold"),
@@ -160,7 +176,7 @@ Plot_p2<-ggplot(tabla2b, aes(x = coord1D, y = rank)) +
         panel.grid.minor = element_blank())
 
 
-ggplot2::ggsave(Plot_p2, filename = "Plot_p2.png",dpi = 400, width = 15, height = 20)
+ggplot2::ggsave(Plot_p2, filename = "~/Documents/GitHub/EcoPolLast/Results/Plot_p2.png",dpi = 500, width = 15, height = 30)
 
 
 ########################################2######################################
@@ -201,7 +217,7 @@ tabla3$coord1D <-round(tabla_p3$coord1D,2)
 tabla3$GMP <-round(tabla_p3$GMP,2)
 tabla3$CC <-round(tabla_p3$CC,2)
 htmlTable(tabla3)%>%
-  save_kable(file = "tablaP3.png")
+  save_kable(file = "~/Documents/GitHub/EcoPolLast/Results/tablaP3.png")
 lista_p3graph<-lista_p3 [,1]
 tabla3b<-data.frame(lista_p3graph$apellido,result_p3$legislators)
 tabla3b <-tabla3b[,c(1,6,7,8)]
@@ -221,8 +237,7 @@ Plot_p3<-ggplot(tabla3b, aes(x = coord1D, y = rank)) +
        title= "Estimación Ideológica periodo pandemia",
        subtitle = "dimensión",
        caption = "Línea amarilla: Votante mediano")+
- #######AGREGAR EL VOTANTE MEDIANO####
-   geom_vline(xintercept = -0.0541298054158688, colour = "orange", linetype = "dashed")+
+   geom_vline(xintercept = -0.3934787512, colour = "orange", linetype = "dashed")+
   theme(axis.text = element_text(size = 15),
         axis.title= element_text(size=16,face="bold"),
         plot.title = element_text(size = 18, face = "bold"),
@@ -230,4 +245,4 @@ Plot_p3<-ggplot(tabla3b, aes(x = coord1D, y = rank)) +
         panel.grid.minor = element_blank())
 
 
-ggplot2::ggsave(Plot_p3, filename = "Plot_p3.png",dpi = 400, width = 15, height = 20)
+ggplot2::ggsave(Plot_p3, filename = "~/Documents/GitHub/EcoPolLast/Results/Plot_p3.png",dpi = 500, width = 15, height = 23)
