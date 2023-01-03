@@ -1,0 +1,360 @@
+---
+title: "Ideological positioning of the Chilean Chamber of Deputies in the period 2018-2022"
+author: "Jaquelin Morillo"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
+                       
+                              ### SETUP #### 
+require(here)
+aqui <- here()
+
+library(wnominate) # Poole et al 2011
+library(MCMCpack) # Quinn et al 2011
+library(pscl)  # Jackman 2012
+#library(anominate) # Lo et al 2013
+#library(oc) # Poole et al 2012
+library(xtable)
+library(htmlTable)
+library(ggplot2)
+library(htmlTable)
+library(kableExtra)
+library(magick)
+library(ellipse)
+library(dplyr)
+library(ggplot2) 
+library(ddplot)
+library(lessR)
+library("readxl")
+```
+
+```{r, echo=FALSE, message = FALSE, warning = FALSE}
+                       
+                              ### CARGA DE BASES #### 
+BASE_DESCRIPTIVA <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/BASE_DESCRIPTIVA.xlsx")
+p1 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p1b.xlsx")
+p2 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p2.xlsx")
+p3 <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/p3.xlsx")
+Partidos <- read_excel("~/Documents/GitHub/EcoPolLast/Bases finales/Partidos.xlsx")
+```
+
+### 1. Introduction
+
+#### 1.1 Social Outburst and SARS-COV-2 Pandemic
+
+<div style="text-align: justify">
+
+With the purpose of demanding social rights, thousands of people protested in Chile on October 18, 2019. Sectoral protests had already shaken the social and political landscape of Chile, highlighting the "Penguin Revolution", the student mobilization in 2006 and several high school student marches in 2011, so the mobilizations of 2019 was not an unprecedented event in the recent history of Chile.
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+The October 2019 demonstrations originated from the public transportation hike which prompted high school students to demonstrate in the subways of Santiago. These activities spread throughout the country and culminated on October 18, 2019 in a nationwide revolt that ended with more than 30 dead, more than 3000 injured and 70 subway stations set on fire and vandalized according to government sources. Protests intensified during the following weeks, adding new social demands and more people across the country, reaching its climax on October 25, 2019, with a citizen protest that, according to official sources, summoned more than 1,200,000 people.
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+Faced with the political, representation and institutional crisis, the Chilean political class came together in the Agreement for Peace on November 15, 2019, in which representatives of the political parties agreed to respond to the citizens' demand for the drafting of a new constitution for Chile. Although the constituent process resulting from the agreement did not result in a new constitutional text, it is clear that the social outburst prompted the idea of new public policies and legislation that sought to respond to citizen demands. Although many of the demands of 2019 remain valid to this day, on March 3, 2020, the first case infected with the SARS-COV-2 virus arrives in Chile, which focuses citizen, political and media concerns towards the imminent health crisis; so the demonstrations of 2019 pass to the background.
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+Since the Chamber of Deputies has, among its responsibilities, the role of representing the citizenry, it had a preponderant role during the institutional crisis of 2019 and the health crisis resulting from the SARS-COV-2 pandemic. This paper aims to reveal whether there were changes in the ideological spectrum in the Chamber of Deputies and how the social outbreak and the pandemic influenced them. The hypothesis is that, given the significant changes in the political agenda, the ideological spectrum was modified between the period before, during and after the social outbreak. To this end, a brief review of previous works on the state of the art in the study of congresses was carried out, followed by a description of the main functions and characteristics of the Chilean Congress, a brief descriptive review of the composition of the Chamber of Deputies, and finally, the median voter theory was used to compare the ideological distribution in the three periods.\
+
+<div/>
+
+<br>
+
+#### 1.2 Congresses
+
+<div style="text-align: justify">
+
+Congresses are crucial institutions for the proper functioning of democracy. Among their main functions are the representation of citizens (Izquierdo Pinos, 1986; Navarro, 2006), legislative production (Casar, 2014; Visconti, 2011) and the control and supervision of the proper functioning of the executive branch (Gamboa, 2006; Lizárraga Valdivia, 2019; Llanos, 1998).
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+In this sense, the role of congressmen should be to work towards the representation of the common interest under the condition of a rational division of labor and the participation in the activities of control of the state with the greatest possible transparency (Kirkland & Harden, 2022); in addition to the production of legislation according to the needs of citizens.
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+Studies of congresses have been approached from a number of different perspectives; understanding the legislature as the aggregator of the activities of co-legislating bodies, including the executive branch, and considering the impact and influence of other groups and organizations outside government, such as parties, political leaders and interest groups. Also, from a systemic perspective, thinking of congresses as a set of actors with responsibilities and regulated by informal rules and norms.
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+The study of legislative processes, as in the field of public policy, distinguishes between the positive agenda, dedicated to the production of new regulations, on the one hand, and the negative agenda focused on the control of other powers(Cox & McCubbins, 2005; Krehbiel & Meirowitz, 2002). Another element that stands out in the framework of legislative dynamics is the influence of external factors that impact on the timing, procedures and design of regulations (De Echave, 2016; Puente Martínez & Cerna Villagra, 2017; Sanchez, 2014).
+
+<div/>
+
+<br>
+
+<div style="text-align: justify">
+
+Finally, one school of thought focuses on the study of congressional decision-making processes. In particular, the median voter theory interprets congresses as collegial bodies with a certain ideological disposition and argues that voters' preferences are unimodal, meaning that voters choose the alternatives closest to their preferred outcome. In this way, the theorem seems to explain some of the behavior that occurs in democratic majority voting systems (Carey, 2002; Grofman et al., 2001; King, 2001, 2003).
+
+<div/>
+
+<br>
+
+#### 1.3 How the Chilean Congress works and its configuration in the period 2018-2022
+
+<div style="text-align: justify">
+The Chilean Congress has a bicameral structure in which both the Senate and the Chamber of Deputies are part of the legislative production process, which means that bills must be approved by both Chambers. Each of these processes is referred to as constitutional procedures (Aninat, 2006). Bills can originate in both the Senate and the Chamber of Deputies and must be approved identically by both. If this does not happen, there may be a third constitutional procedure in which the chamber of origin votes on the bill under discussion in a closed rule. If no agreement is reached, a joint committee is formed with the participation of members of the chamber of origin and the revising chamber to resolve the differences and then be ratified by both. Regardless of the chamber of origin and the revising chamber, the bill has two readings in each of them. This process is called legislative procedure and in each procedure the bills are discussed, sent to one or more committees and voted on in general, with close rule and in particular (open rule). The purpose of the referral to committees is to issue a report and the agreement of the text to be submitted to the plenary for its scrutiny.
+<div/>
+<br>
+<div style="text-align: justify">
+It is worth highlighting the role of the committees not only in the way they work, in which they incorporate participatory mechanisms so that civil society can present its needs, points of view and interests, but also in the expertise and specialized thematic focus of each committee. Currently, in the Chamber of Deputies there are 27 working committees with 13 Deputies participating in each committee. In the Senate there are 27 standing committees with 5 appointed senators, and 11 special committees with varying numbers of participants. The committees' range in subject matter from public security to emergencies, disasters and firefighting.
+<div/>
+<br>
+<div style="text-align: justify">
+The Chilean legislative process is conditioned by a strong presidentialism, where the executive has control over some of the most relevant legislative initiatives(Alemán & Navia, 2009; Linz, 1990; Mainwaring, 1990; Siavelis, 2009). The current Chilean Constitution defines the set of legal functions and rights of authority of the executive as the exclusive initiative in certain matters, the power to set priorities on certain bills at certain stages of their development or at all stages through an emergency mechanism, the power to exercise its veto over bills approved by Congress, and the exercise of regulatory power in all matters that are not limited to the legal sphere. In this sense, in Chile, the presidential decree is one more tool of the legislative technique for the executive to establish which lines of the legislative process are its own, among other reasons, due to the greater technical capacity of the ministries with respect to the legislators.Moreover, throughout the legislative process, political negotiations tend to take place mainly through formal or informal meetings and committee negotiations. Also, initiatives tend to find their genesis in the executive branch rather than in interactions between congressmen.
+<div/>
+<br>
+<div style="text-align: justify">
+Finally, in the legislative production process, Chilean legislation contemplates four types of quorums: ordinary legislation is approved with a simple majority; qualified quorum laws require the affirmative votes of the majority of the members of Congress in office; organic constitutional laws require four-sevenths of the members of Congress to be approved; and laws interpreting the constitution must have three-fifths of the members of Congress in office. Finally, constitutional reform bills require the approval of three-fifths, or three-thirds, depending on the chapter of the Constitution to be modified (Aninat, 2006).
+<div/>
+<br>
+<div style="text-align: justify">
+The Chamber of Deputies consists of 155 members representing the 28 electoral districts. In 2018, 122 men (79%) and 33 women (21%) took office. 56% of the elected Chamber was opposition (87) and the remaining 44% pro-government (68). The party configuration can be seen in Figure 1, being the majority party RN with 34 deputies and the minority parties PPR, PP and PEV with 1 deputy each.
+<div/>
+<br>
+
+```{r echo=FALSE, fig.height=6, fig.width=6, message=FALSE, warning=FALSE, fig.align = 'center'}
+                       
+                              ### GRAFICO PARTIDOS #### 
+graph_partidos<-ggplot(data=Partidos, aes(x=Partidos$partido, y=Partidos$cantidad, fill=Partidos$cantidad)) + 
+  geom_bar(width=.8, stat="identity") +
+  geom_text(aes(label=Partidos$cantidad), vjust=0) +
+  guides(fill=FALSE) +
+  xlab("Parties") + ylab("Deputies") +
+  ggtitle(" Figure 1: Distribution of the congress by party - 2018")
+graph_partidos
+```
+
+<br>
+
+### 2. methodology
+
+#### 2.1 Median Voter Theory and techniques
+
+
+<div style="text-align: justify">
+According to the median voter theorem, a majority voting election system will typically select the choice made by the median voter. This conclusion is reached by presuming that the voter takes a unidimensional position and ranks the proposals according to their alignment with the right and left ideologies. The theory also asserts that voter preferences are unimodal, which means that people select the options that are most similar to their chosen result. The theorem appears to explain some of the behaviors that take place in democratic majority voting systems in this way. It explains why politicians frequently use the same campaign platforms and talking points in an effort to tailor their proposals to the preferences of the typical voter. At the same time, it explains why the more moderate suggestions typically receive the majority of votes while the radical proposals are rarely adopted.
+<div/>
+<br>
+<div style="text-align: justify">
+In Harold Hotelling's article Stability in Competition, these concepts were originally presented (Hotelling, 1929).  The author made a comparison between political elections and businesses in the private sector, asserting that just as there is little variation in the products provided by many rival enterprises, there is also little difference in the electoral platforms of various parties. This is so that they can win over the majority of voters, much like marketers. The theorem and its underlying assumptions were then made explicit for the first time by Scottish economist Duncan Black (Black, 1948) which also provided a formal study of majority voting. Black's article triggered research on how economics can explain voting systems, leading finally in 1957 to Anthony Downs's article "Economic Theory of Political Action in Democracy" setting forth the median voter theorem (Downs, 1957).
+<div/>
+<br>
+<div style="text-align: justify">
+For the purpose of this paper, voting data were obtained using the webscrapping technique from the enabled points of the House of Deputies website (www.camara.cl).The wnominate package (Poole et al., 2011) in R software (version 4.2.1) was used to estimate the ideological position of deputies in the pre-social outburst period (from the beginning of the period until October 17, 2019), in the period during the outburst (from October 18, 2019 until March 2, 2020) and during the pandemic period (from March 3, 2020 until the end of the period). These periods were not selected on a whim. The first cut was chosen on October 17, 2019 as it is a clear measure of the change in the social scenario and the political situation. On the other hand, the second cut-off date was March 2, 2020, given that it was the arrival of the first positive Covid case in the national territory, which triggered the state of emergency, the allocation of extraordinary resources and special sanitary measures, which implied a change of direction in the priorities of the Chamber. 
+<div/>
+<br>
+<div style="text-align: justify">
+It is important to mention that the technique used requires the designation of an "anchor case". The objective of this process is to define an ideological extreme as a point of comparison to build the ideological continuum. In this case, Guillermo Tellier, deputy for the 13th District, Metropolitan Region of Santiago, was designated. Guillermo Tellier participated in the organization of the Communist Party since 1958, occupying various positions, until 2006 when he consolidated his position as national president of the party. Given his trajectory, apart from his public statements and his historical activism, he becomes an ideal anchor case to establish the unidimensional ideological continuum in the three periods to be studied.
+<div/>
+<br>
+
+<div style="text-align: justify">
+Finally, it is worth mentioning the changes in the composition of the Chamber of Deputies. Given the political instability generated by the social outbreak, some deputies left their posts for various reasons, among them, to run for the constituent convention or because they had been reassigned as Senators, Ministers of State or ambassadors. In order not to dirty the ideological estimation, the methodological decision was made to consider 155 deputies in the first and second periods and 163 in the final period. However, it was not methodologically feasible to divide the period according to each change that occurred, since this exercise would lose its exploratory purpose.
+<div/>
+<br>
+
+### 3. Results
+
+#### 3.1 Pre social outburst period
+
+<div style="text-align: justify">
+In the pre-social outburst period, the median voter was Deputy Daniel Verdessi (DC), a surgeon with an important experience in the public sector and deputy since 1997, with a 0.05 coordenate to the left.  On the far right of the ideological spectrum are people associated with the conservative wing of RN, such as Leopoldo Pérez and the great majority of UDI deputies, such as Patricio Melero (in blue). On the far left are Claudia Mix (RD) accompanied by the majority of her coalition and most of the PC, such as Amaro Labra. In the center-right is EVO, in the center-center the DC and the PR and in the center-left of the ideological spectrum is the PS.
+<div/>
+<br>
+
+```{r, fig.align='center', out.width="125%", echo=FALSE}
+knitr::include_graphics("Results/Plot_p1.png")
+```
+
+<br>
+
+#### 3.2 During social outburst period
+
+<div style="text-align: justify">
+With the upheaval caused by the social outburst, the status quo in the chamber was modified. In this period, the median voter was Pepe Auth, who began the period as a member of the PR and later as an independent. It is interesting to note that the median voter with respect to the previous period shifts almost one point to the right (coordinate -0.04). Although the most extreme cases are Pamela Jiles (PH) and Raúl Alarcón (PH who later resigned to become an independent), the extreme left continues to be concentrated in the RD and the new left, while the PC, although still on the left, is slightly towards the center. The extreme right continues to be a bastion of the UDI and the conservative sectors of RN. It is interesting that the center of the ideological spectrum becomes more populated and a greater continuity is generated. 
+<div/>
+<br>
+
+```{r, fig.align='center', out.width="125%", echo=FALSE}
+knitr::include_graphics("Results/Plot_p2.png")
+```
+
+<br>
+
+#### 3.3 SARS-CoV-2 pandemic period
+
+<div style="text-align: justify">
+The arrival of the SARS-CoV-2 pandemic generates some changes in the ideological scaffolding of the Chamber of Deputies. The median voter moves to the right and, during this period, is incarnated by Manuel Matta (DC) (coordinate-0.39). Likewise, there is greater continuity between the center and the left. The extreme left continues to be taken by RD, PH and PC.
+<div/>
+<br>
+
+```{r, fig.align='center', out.width="100%", echo=FALSE}
+knitr::include_graphics("Results/Plot_p3.png")
+```
+<br>
+
+### 4. Discussion and future challenges
+
+<div style="text-align: justify">
+According to the findings, it seems that the political and social situation affected the ideological behavior of the Chamber of Deputies in 2018-2022. In the first period analyzed, we found a Chamber with three well-marked ideological positions. With the arrival of the social outburst, a more consolidated center seems to emerge, but still maintaining very steep slopes both on the right and on the left. Although in this period the median voter is moving to the right, there still seems to be a centrifugal force in the ideological positioning of the Chamber, which is consistent with a social and political event that divided not only the political elite but also the country as a whole. Finally, the arrival of the SARS-CoV-2 pandemic in Chile seems to have generated a greater alignment of the ruling party with the policies to face the virus, an effect that is not reflected in the center and the left, which are still dispersed in the ideological spectrum. The agglutination and coordination of the right wing manages to move the median voter towards its sector, placing it in a marked limit with the center and the left. 
+<div/>
+<br>
+<div style="text-align: justify">
+As future challenges, we consider complementing the analysis by differentiating between the median and the pivotal voter according to the characteristics of each vote of the parliamentary period in order to obtain a more refined study of the ideological positioning of the Chamber. We also hope to complement this manuscript with semi-experimental methods that allow us to establish causality. Finally, it would be interesting to delve into the characteristics of parliamentarians such as age, gender and region of origin to compare the impact of these dimensions on ideological positioning.
+<div/>
+<br>
+
+### 5. References
+
+<div style="text-align: justify">
+Alemán, E., & Navia, P. (2009). Institutions and the legislative success of ‘strong’presidents: An analysis of government bills in Chile. The Journal of Legislative Studies, 15(4), 401-419.
+<div/>
+<div style="text-align: justify">
+Aninat, C. (2006). Balance de poderes legislativos en Chile. ¿ Presidencialismo exagerado o base de un sistema político cooperativo? Revista de Ciencia Política, 47, 128-148.
+<div/>
+<div style="text-align: justify">
+Black, D. (1948). On the rationale of group decision-making. Journal of political economy, 56(1), 23-34.
+<div/>
+<div style="text-align: justify">
+Carey, J. (2002). Parties, Coalitions, and the Chilean Congress in the 1990s. Legislative Politics in Latin America, 222-253.
+<div/>
+<div style="text-align: justify">
+Casar, M. A. (2014). Representation and Decision-Making in the Mexican Congress. En Representation and Effectiveness in Latin American Democracies (pp. 109-128). Routledge.
+<div/>
+<div style="text-align: justify">
+Cox, G. W., & McCubbins, M. D. (2005). Setting the agenda: Responsible party government in the US House of Representatives. Cambridge University Press.
+<div/>
+<div style="text-align: justify">
+De Echave, J. (2016). La minería ilegal en Perú: Entre la informalidad y el delito. Nueva sociedad, 263, 131-144.
+<div/>
+<div style="text-align: justify">
+Downs, A. (1957). An economic theory of political action in a democracy. Journal of political economy, 65(2), 135-150.
+<div/>
+<div style="text-align: justify">
+Gamboa, R. (2006). El Congreso Nacional chileno y el ejercicio de sus funciones legislativa y fiscalizadora (1990-2006). PolÃtica. Revista de Ciencia PolÃtica, 47, 99-125.
+<div/>
+<div style="text-align: justify">
+Grofman, B., Koetzle, W., Merrill, S., & Brunell, T. (2001). Changes in the Location of the Median Voter in theU. S. House of Representatives, 1963–1996. Public Choice, 106(3), 221-232.
+<div/>
+<div style="text-align: justify">
+Hotelling, H. (1929). Stability in competition. The economic journal, 39(153), 41-57.
+<div/>
+<div style="text-align: justify">
+Izquierdo Pinos, V. (1986). El Congreso Nacional en sus funciones legislativa y fiscalizadora.
+<div/>
+<div style="text-align: justify">
+King, D. C. (2001). Political party competition and fidelity to the median voter in the US Congress. Unpublished manuscript. Harvard University, John F. Kennedy School of Government.
+<div/>
+<div style="text-align: justify">
+King, D. C. (2003). Congress, polarization, and fidelity to the median voter. Unpublished manuscript, Harvard University.
+<div/>
+<div style="text-align: justify">
+Kirkland, J. H., & Harden, J. J. (2022). The Illusion of Accountability: Transparency and Representation in American Legislatures. Cambridge University Press.
+<div/>
+<div style="text-align: justify">
+Krehbiel, K., & Meirowitz, A. (2002). Minority rights and majority power: Theoretical consequences of the motion to recommit. Legislative Studies Quarterly, 27(2), 191-217.
+<div/>
+<div style="text-align: justify">
+Linz, J. J. (1990). The perils of presidentialism. Journal of democracy, 1(1), 51-69.
+<div/>
+<div style="text-align: justify">
+Lizárraga Valdivia, J. P. (2019). Análisis de la función parlamentaria caso: Congreso de la República del Perú, periodo 2019.
+<div/>
+<div style="text-align: justify">
+Llanos, M. (1998). El presidente, el Congreso y la política de privatizaciones en la Argentina (1989-1997). Desarrollo económico, 743-770.
+<div/>
+<div style="text-align: justify">
+Mainwaring, S. (1990). Presidentialism in Latin America. Latin American Research Review, 25(1), 157-179.
+<div/>
+<div style="text-align: justify">
+Navarro, Á. J. S. (2006). Representación nacional y grupos parlamentarios en el Congreso de los Diputados. Cuadernos de pensamiento político, 93-114.
+<div/>
+<div style="text-align: justify">
+Puente Martínez, K., & Cerna Villagra, S. P. (2017). Desempeño parlamentario de las comisiones legislativas permanentes sobre género en legislaturas de América Latina. Estudios políticos (México), 42, 37-58.
+<div/>
+<div style="text-align: justify">
+Sanchez, L. E. (2014). Éxito y participación legislativa en materia de política exterior. El Congreso de la Nación Argentina, un estudio de caso.
+<div/>
+<div style="text-align: justify">
+Siavelis, P. M. (2009). Enclaves de la transición y democracia chilena. Revista de ciencia política (Santiago), 29(1), 3-21.
+<div/>
+<div style="text-align: justify">
+Visconti, G. (2011). Comportamiento diacrónico del Congreso en Chile:¿ Crecimiento o estancamiento de su influencia? Revista de ciencia política (Santiago), 31(1), 91-115.
+<div/>
+<br>
+
+### 6. Annexes
+#### 6.1 Ideological estimation pre social outburst period
+
+```{r, fig.align='center', out.width="40%", echo=FALSE}
+knitr::include_graphics("Results/tablaP1.png")
+```
+
+<br>
+
+#### 6.2 Ideological estimation during social outburst period
+```{r, fig.align='center', out.width="40%", echo=FALSE}
+knitr::include_graphics("Results/tablaP2.png")
+```
+
+<br>
+
+#### 6.3 Ideological estimation during SARS-CoV-2 pandemic
+```{r, fig.align='center', out.width="40%", echo=FALSE}
+knitr::include_graphics("Results/tablaP3.png")
+```
+
+<br>
+
+
+
+
+
+
+<div style="text-align: justify">
+
+<div/>
+<br>
+
+<div style="text-align: justify">
+
+<div/>
+<br>
+
+<div style="text-align: justify">
+
+<div/>
+<br>
